@@ -14,6 +14,7 @@
   let visibleSquares = [];
   let gameWon = false;
   let timerInterval;
+  let flashedScore = undefined;
 
   function initializeGrid() {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -31,7 +32,6 @@
   }
 
   function handleSquareClick(index) {
-    console.log(index);
     if (gameOver || grid[index].matched) return;
 
     if (selectedSquares.includes(index)) {
@@ -50,15 +50,24 @@
         grid[first].matched = true;
         grid[second].matched = true;
         score += 20;
+        flashScore(20);
         checkForWin();
       } else {
         score = Math.max(0, score - 15);
+        flashScore(-15);
       }
       setTimeout(() => {
         selectedSquares = [];
       }, 500);
       grid = [...grid];
     }
+  }
+
+  function flashScore(amount) {
+    flashedScore = amount;
+    setTimeout(() => {
+      flashedScore = undefined;
+    }, 400);
   }
 
   function checkForWin() {
@@ -143,6 +152,12 @@
         {/if}
       {/each}
     </div>
+
+    {#if flashedScore}
+      <div class="flashed-score" transition:fade={{ duration: 300 }}>
+        {flashedScore > 0 ? "+" : ""}{flashedScore}
+      </div>
+    {/if}
 
     {#if gameOver}
       <div class="game-over-content" transition:fade={{ duration: 300 }}>
@@ -233,7 +248,7 @@
 
   .square.selected {
     background-color: #f6f6f6;
-    border: 2px solid #ccc;
+    border: 2px solid #6200ea;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   }
 
@@ -260,6 +275,14 @@
   }
   .game-over-content h2 {
     margin: 1rem 0 2rem;
+  }
+
+  .flashed-score {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6200ea;
+    font-size: 2rem;
   }
 
   .start-button,
