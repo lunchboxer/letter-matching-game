@@ -186,6 +186,7 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    margin-bottom: 1rem;
     gap: 10px;
     width: 100%;
   }
