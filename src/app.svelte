@@ -1,6 +1,7 @@
 <script>
   import { fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
+  import Footer from "./lib/footer.svelte";
 
   const TIME_LIMIT = 60;
   const COMPLETION_BONUS = 100;
@@ -140,7 +141,6 @@
 
 <main>
   <div class="game-info">
-    <p>Score: {score}</p>
     <h1 class="title">Letter Matching Game</h1>
     <p>Time: {timeRemaining}s</p>
   </div>
@@ -185,6 +185,7 @@
     {/if}
   {/if}
 </main>
+<Footer />
 
 <style>
   main {
@@ -196,7 +197,7 @@
     padding: 0 0.5rem;
     margin: 0 auto;
     position: relative;
-    min-height: 100vh;
+    min-height: calc(100vh - 3.8rem);
   }
 
   .game-info {
@@ -211,7 +212,6 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    margin-bottom: 1rem;
     gap: 10px;
     width: 100%;
   }
