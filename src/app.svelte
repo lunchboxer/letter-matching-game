@@ -122,7 +122,7 @@
 <main>
   <div class="game-info">
     <p>Score: {score}</p>
-    <h1>Letter Matching Game</h1>
+    <h1 class="title">Letter Matching Game</h1>
     <p>Time: {timeRemaining}s</p>
   </div>
   {#if !gameStarted}
@@ -165,8 +165,10 @@
   main {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     max-width: 600px;
+    padding: 0 0.5rem;
     margin: 0 auto;
     position: relative;
     min-height: 100vh;
@@ -189,15 +191,12 @@
   }
 
   .grid.game-over {
-    opacity: 0.2;
+    opacity: 0.5;
     pointer-events: none;
     transition: opacity 0.3s;
   }
-
-  @media (max-width: 600px) {
-    .grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .title {
+    color: #6200ea;
   }
 
   .square {
@@ -214,6 +213,18 @@
       opacity 0.5s;
     padding: 0;
   }
+  @media (max-width: 600px) {
+    .game-info {
+      flex-wrap: wrap;
+    }
+    .title {
+      margin: 0 0 0.5rem;
+      padding: 0;
+      width: 100%;
+      order: -1;
+      clear: both;
+    }
+  }
 
   .square:hover:not(:disabled) {
     background-color: #e0e0e0;
@@ -226,8 +237,10 @@
   }
 
   .square.matched {
-    opacity: 0.1;
+    opacity: 0.05;
     cursor: default;
+    border: none;
+    box-shadow: none;
   }
 
   .game-over-content {
@@ -240,6 +253,12 @@
     border-radius: 10px;
     text-align: center;
     z-index: 10;
+  }
+  .game-over-content h3 {
+    margin: 2rem 0 1rem;
+  }
+  .game-over-content h2 {
+    margin: 1rem 0 2rem;
   }
 
   .start-button,
