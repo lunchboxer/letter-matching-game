@@ -16,6 +16,11 @@
   let timerInterval;
   let flashedScore = undefined;
 
+  let matchSound = new Audio("matched.mp3");
+  let wrongSound = new Audio("wrong.mp3");
+  let winSound = new Audio("win.mp3");
+  let timesUpSound = new Audio("times_up.mp3");
+
   function initializeGrid() {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const shuffledLetters = letters
@@ -51,10 +56,12 @@
         grid[second].matched = true;
         score += 20;
         flashScore(20);
+        matchSound.play();
         checkForWin();
       } else {
         score = Math.max(0, score - 15);
         flashScore(-15);
+        wrongSound.play();
       }
       setTimeout(() => {
         selectedSquares = [];
@@ -81,8 +88,11 @@
     gameOver = true;
     clearInterval(timerInterval);
     if (gameWon) {
+      winSound.play();
       const completionPoints = COMPLETION_BONUS + timeRemaining * 10;
       score += completionPoints;
+    } else {
+      timesUpSound.play();
     }
   }
 
