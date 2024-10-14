@@ -264,7 +264,7 @@
     }
 
     .grid.game-over {
-        opacity: 0.5;
+        opacity: 0.2;
         pointer-events: none;
         transition: opacity 0.3s;
     }
