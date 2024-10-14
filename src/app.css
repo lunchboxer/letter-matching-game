@@ -1,11 +1,71 @@
 @font-face {
-  font-family: 'Lexend Regular';
-  src: url(/Lexend-Regular.ttf) format('truetype');
+    font-family: 'Lexend Regular';
+    src: url(/Lexend-Regular.ttf) format('truetype');
+}
+
+:root {
+    --background-color: #f0f0f0;
+    --text-color: #111;
+    --title-color: #6200ea;
+    --button-bg: #6200ea;
+    --button-text: white;
+    --button-hover: #b388ff;
+    --square-border: #ddd;
+    --square-bg: white;
+    --square-hover: #e0e0e0;
+    --square-selected: #f6f6f6;
+    --square-selected-border: #6200ea;
+}
+
+.dark-mode {
+    --background-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --title-color: #b388ff;
+    --button-bg: #b388ff;
+    --button-text: #1a1a1a;
+    --button-hover: #6200ea;
+    --square-border: #444;
+    --square-bg: #2a2a2a;
+    --square-hover: #3a3a3a;
+    --square-selected: #4a4a4a;
+    --square-selected-border: #b388ff;
 }
 
 body {
-  font-family: 'Lexend Regular', sans-serif;
-  background-color: #f0f0f0;
-  padding: 0;
-  margin: 0;
+    font-family: 'Lexend Regular', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        --background-color: #1a1a1a;
+        --text-color: #f0f0f0;
+        --title-color: #b388ff;
+        --button-bg: #b388ff;
+        --button-text: #1a1a1a;
+        --button-hover: #6200ea;
+        --square-border: #444;
+        --square-bg: #2a2a2a;
+        --square-hover: #3a3a3a;
+        --square-selected: #4a4a4a;
+        --square-selected-border: #b388ff;
+    }
+
+    body.light-theme {
+        --background-color: #f0f0f0;
+        --text-color: #111;
+        --title-color: #6200ea;
+        --button-bg: #6200ea;
+        --button-text: white;
+        --button-hover: #b388ff;
+        --square-border: #ddd;
+        --square-bg: white;
+        --square-hover: #e0e0e0;
+        --square-selected: #f6f6f6;
+        --square-selected-border: #6200ea;
+    }
 }

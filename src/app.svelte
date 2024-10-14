@@ -4,6 +4,8 @@
     import Footer from "./lib/footer.svelte";
     import MuteIcon from "./lib/mute-icon.svelte";
     import VolumeIcon from "./lib/volume-icon.svelte";
+    import MoonIcon from "./lib/moon-icon.svelte";
+    import SunIcon from "./lib/sun-icon.svelte";
 
     const TIME_LIMIT = 60;
     const COMPLETION_BONUS = 100;
@@ -19,6 +21,12 @@
     let timerInterval;
     let flashedScore = undefined;
     let muted = false;
+
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+    let darkMode = prefersDarkScheme.matches;
+
+    $: console.log(darkMode);
 
     let matchSound = new Audio("matched.mp3");
     let wrongSound = new Audio("wrong.mp3");
@@ -126,6 +134,15 @@
         muted = !muted;
     }
 
+    function toggleDarkMode() {
+        darkMode = !darkMode;
+        if (prefersDarkScheme.matches) {
+            document.body.classList.toggle("light-theme");
+        } else {
+            document.body.classList.toggle("dark-theme");
+        }
+    }
+
     function staggerSquareAppearance() {
         const totalDuration = 300;
         const intervalDuration = totalDuration / grid.length;
@@ -146,18 +163,28 @@
     }
 </script>
 
-<main>
+<main class:dark-mode={darkMode}>
     <div class="game-info">
         <h1 class="title">Letter Matching Game</h1>
         <p>Time: {timeRemaining}s</p>
-        <button class="clear-button" on:click={toggleMute}>
-            {#if muted}
-                <MuteIcon />
-            {:else}
-                <VolumeIcon />
-            {/if}
-        </button>
+        <div class="controls">
+            <button class="clear-button" on:click={toggleDarkMode}>
+                {#if darkMode}
+                    <MoonIcon />
+                {:else}
+                    <SunIcon />
+                {/if}
+            </button>
+            <button class="clear-button" on:click={toggleMute}>
+                {#if muted}
+                    <MuteIcon />
+                {:else}
+                    <VolumeIcon />
+                {/if}
+            </button>
+        </div>
     </div>
+
     {#if !gameStarted}
         <button class="start-button" on:click={startGame}>Start Game</button>
     {:else}
@@ -199,11 +226,17 @@
         {/if}
     {/if}
 </main>
+
 <Footer />
 
 <style>
     main {
         display: flex;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        transition:
+            background-color 0.3s,
+            color 0.3s;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
@@ -211,7 +244,7 @@
         padding: 0 0.5rem;
         margin: 0 auto;
         position: relative;
-        min-height: calc(100vh - 3.8rem);
+        min-height: calc(100vh - 3.7rem);
     }
 
     .game-info {
@@ -236,16 +269,17 @@
         transition: opacity 0.3s;
     }
     .title {
-        color: #6200ea;
+        color: var(--title-color);
     }
 
     .square {
         aspect-ratio: 1;
         font-size: clamp(16px, 4vw, 24px);
         font-family: inherit;
-        border: 1px solid #ddd;
+        border: 1px solid var(--square-border);
         border-radius: 5px;
-        color: #111;
+        color: var(--text-color);
+        background-color: var(--square-bg);
         cursor: pointer;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition:
@@ -267,12 +301,12 @@
     }
 
     .square:hover:not(:disabled) {
-        background-color: #e0e0e0;
+        background-color: var(--square-hover);
     }
 
     .square.selected {
-        background-color: #f6f6f6;
-        border: 2px solid #6200ea;
+        background-color: var(--square-selected);
+        border: 2px solid var(--square-selected-border);
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
     }
 
@@ -289,7 +323,8 @@
         transform: translateY(-50%);
         background-color: white;
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--square-border);
+        background-color: var(--background-color);
         border-radius: 10px;
         text-align: center;
         z-index: 10;
@@ -305,7 +340,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        color: #6200ea;
+        color: var(--title-color);
         font-size: 2rem;
     }
 
@@ -314,8 +349,8 @@
         font-size: 1rem;
         padding: 1rem 2rem;
         margin: 1rem;
-        background-color: #6200ea;
-        color: white;
+        background-color: var(--button-bg);
+        color: var(--button-text);
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -324,11 +359,12 @@
 
     .start-button:hover,
     .play-again-button:hover {
-        background-color: #b388ff;
+        background-color: var(--button-hover);
     }
     .clear-button {
         background-color: transparent;
         border: none;
+        color: var(--text-color);
         cursor: pointer;
     }
 </style>
