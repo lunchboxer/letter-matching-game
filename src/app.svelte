@@ -26,8 +26,6 @@
 
     let darkMode = prefersDarkScheme.matches;
 
-    $: console.log(darkMode);
-
     let matchSound = new Audio("matched.mp3");
     let wrongSound = new Audio("wrong.mp3");
     let winSound = new Audio("win.mp3");
